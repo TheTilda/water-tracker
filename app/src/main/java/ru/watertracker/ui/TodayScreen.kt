@@ -39,6 +39,12 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 private const val BOTTLE_ML = 500
+private const val OVERDOSE_GOALS = 2 // после двух дневных норм — шуточное предупреждение
+private val overdoseJokes = listOf(
+    "Передозировка воды! Ещё стакан — и отрастут жабры",
+    "Осторожно: рыбы начинают вам завидовать",
+    "Вы уже не пьёте воду — вы ею становитесь",
+)
 private val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
 
 @Composable
@@ -56,7 +62,11 @@ fun TodayScreen(repository: WaterRepository, snackbar: SnackbarHostState) {
 
     fun add(amount: Int) = scope.launch {
         repository.add(amount)
-        if (total < goal && total + amount >= goal) snackbar.showSnackbar("Дневная норма выполнена!")
+        val limit = goal * OVERDOSE_GOALS
+        when {
+            total < limit && total + amount >= limit -> snackbar.showSnackbar(overdoseJokes.random())
+            total < goal && total + amount >= goal -> snackbar.showSnackbar("Дневная норма выполнена!")
+        }
     }
 
     LazyColumn(Modifier.fillMaxWidth(), contentPadding = PaddingValues(16.dp)) {
