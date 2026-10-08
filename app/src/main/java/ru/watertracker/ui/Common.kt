@@ -20,10 +20,19 @@ val RU: Locale = Locale.forLanguageTag("ru")
 
 @Composable
 fun WaterTheme(content: @Composable () -> Unit) {
+    // Задаём и нейтральные цвета, иначе Material 3 подставляет свои сиреневые.
     val colors = if (isSystemInDarkTheme()) {
-        darkColorScheme(primary = Color(0xFF8DC3EA), primaryContainer = Color(0xFF1A4C6D))
+        darkColorScheme(
+            primary = Color(0xFF8DC3EA), primaryContainer = Color(0xFF1A4C6D), secondaryContainer = Color(0xFF1A4C6D),
+            background = Color(0xFF111417), surface = Color(0xFF111417), surfaceVariant = Color(0xFF3F474F),
+            surfaceContainer = Color(0xFF1D2125), surfaceContainerHigh = Color(0xFF272B30),
+        )
     } else {
-        lightColorScheme(primary = Color(0xFF1F6A9A), primaryContainer = Color(0xFFD3E5F2))
+        lightColorScheme(
+            primary = Color(0xFF1F6A9A), primaryContainer = Color(0xFFD3E5F2), secondaryContainer = Color(0xFFD3E5F2),
+            background = Color(0xFFF7F9FB), surface = Color(0xFFF7F9FB), surfaceVariant = Color(0xFFDDE3EA),
+            surfaceContainer = Color(0xFFECF0F4), surfaceContainerHigh = Color(0xFFE6EBF0),
+        )
     }
     MaterialTheme(colorScheme = colors, content = content)
 }
